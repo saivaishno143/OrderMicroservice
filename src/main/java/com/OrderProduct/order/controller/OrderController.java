@@ -2,6 +2,7 @@ package com.OrderProduct.order.controller;
 
 import com.OrderProduct.order.DTO.CreateOrderResponseDto;
 import com.OrderProduct.order.DTO.OrderRequestDto;
+import com.OrderProduct.order.DTO.OrderstatusUpdateDto;
 import com.OrderProduct.order.Service.IOrderService;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,14 @@ public class OrderController {
         CreateOrderResponseDto order=orderService.createOrder(request);
         return ResponseEntity.ok(order);
     }
-//    @PatchMapping
-//    public ResponseEntity<CreateOrderResponseDto> updateOrder(@RequestBody OrderRequestDto request) {
-//        CreateOrderResponseDto order = orderService.updateOrder(request);
-//        return ResponseEntity.ok(order);
-//    }
+    @PatchMapping("/{orderId}/status")
+    public ResponseEntity<OrderstatusUpdateDto> updateOrderStatus(
+            @PathVariable Long orderId,
+            @RequestBody OrderstatusUpdateDto statusUpdateDto) {
+
+        OrderstatusUpdateDto response = orderService.updateOrderStatus(orderId, statusUpdateDto.getStatus());
+        return ResponseEntity.ok(response);
+    }
+
+
 }

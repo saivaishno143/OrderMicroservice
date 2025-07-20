@@ -1,9 +1,7 @@
 package com.OrderProduct.order.Service;
 
-import com.OrderProduct.order.DTO.CreateOrderResponseDto;
-import com.OrderProduct.order.DTO.OrderItemDto;
-import com.OrderProduct.order.DTO.OrderRequestDto;
-import com.OrderProduct.order.DTO.ProductDto;
+import com.OrderProduct.order.DTO.*;
+import com.OrderProduct.order.Enums.OrderStatus;
 import com.OrderProduct.order.Mapper.OrderItemMapper;
 import com.OrderProduct.order.Mapper.OrderMapper;
 import com.OrderProduct.order.Repository.OrderRepository;
@@ -43,6 +41,16 @@ public class OrderService implements IOrderService{
         Order createOrder = orderRepository.save(order);
         return OrderMapper.toCreteOrderResponseDto(createOrder);
     }
+    public OrderstatusUpdateDto updateOrderStatus(Long orderId, String status) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
+
+        order.setOrderStatus(OrderStatus.valueOf(status));  // update status
+        orderRepository.save(order);
+
+        return new OrderstatusUpdateDto(orderId, status, "Order status updated successfully.");
+    }
+
 
 
 }

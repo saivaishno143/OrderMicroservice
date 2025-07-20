@@ -10,15 +10,15 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ProductServiceclient {
 
-    private final RestTemplateBuilder restTemplateBuilder;
+    private final RestTemplate restTemplate;
 
-    public ProductServiceclient(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplateBuilder = restTemplateBuilder;
+    public ProductServiceclient( RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+
     }
 
     public  ProductDto getProductById(Long productId) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        String url = "http://localhost:8080/api/products/" + productId; // Adjust the URL as needed
+        String url = "http://EcommerceSpring/api/products/" + productId; // Adjust the URL as needed
         ResponseEntity<ProductDto> response = restTemplate.getForEntity(url, ProductDto.class);
         return response.getBody();
     }
